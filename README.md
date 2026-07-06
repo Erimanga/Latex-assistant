@@ -35,7 +35,7 @@
 
 #### Snippet 展开
 
-输入触发词的前几个字母，自动弹出补全提示，按 **Tab** 或 **Enter** 展开；也可以输入完整触发词后直接按 **Tab**。
+输入触发词的前几个字母，自动弹出补全提示，按 **Enter** 展开；也可以输入完整触发词后直接按 **Tab**。
 
 ![补全弹窗](https://github.com/user-attachments/assets/3d89e27a-d69d-4492-9970-196ff6db6904)
 
@@ -106,7 +106,7 @@ npm run build      # 生产构建
 
 #### Snippet expansion
 
-Type a few letters of a trigger word to see completion suggestions. Press **Tab** or **Enter** to expand. You can also type the full trigger and press Tab directly.
+Type a few letters of a trigger word to see completion suggestions. Press **Enter** to expand. Or type the full trigger and press Tab directly.
 
 ![completion popup](https://github.com/user-attachments/assets/3d89e27a-d69d-4492-9970-196ff6db6904)
 
