@@ -4,7 +4,6 @@
 
 import { PluginSettingTab, Setting, App, Notice } from "obsidian";
 import type LatexAssistantPlugin from "./main";
-import type { LatexAssistantSettings } from "./settings";
 import type { Snippet } from "./types/snippet";
 import { SnippetManagerModal } from "./modals/snippet_manager";
 import { previewSnippet } from "./snippets/engine";
@@ -27,7 +26,7 @@ export class LatexAssistantSettingTab extends PluginSettingTab {
         const _ = this._.bind(this);
         containerEl.empty();
 
-        containerEl.createEl("h2", { text: "LaTeX Assistant" });
+        new Setting(containerEl).setName("LaTeX Assistant").setHeading();
 
         // Language
         new Setting(containerEl)
@@ -75,7 +74,7 @@ export class LatexAssistantSettingTab extends PluginSettingTab {
                 .onChange(async (v) => { this.plugin.settings.enableBuiltinSnippets = v; await this.save(); }));
 
         // Custom snippets
-        containerEl.createEl("h3", { text: _("settings.customSnippets.title") });
+        new Setting(containerEl).setName(_("settings.customSnippets.title")).setHeading();
 
         new Setting(containerEl)
             .setName(_("settings.addSnippet.name"))
@@ -145,14 +144,14 @@ export class LatexAssistantSettingTab extends PluginSettingTab {
         const json = JSON.stringify(this.plugin.settings.customSnippets, null, 2);
         const blob = new Blob([json], { type: "application/json" });
         const url = URL.createObjectURL(blob);
-        const a = document.createElement("a"); a.href = url; a.download = "latex-assistant-snippets.json"; a.click();
+        const a = activeDocument.createElement("a"); a.href = url; a.download = "latex-assistant-snippets.json"; a.click();
         URL.revokeObjectURL(url);
         new Notice(this._("notices.snippetsExported"));
     }
 
     private importSnippets(): void {
         const _ = this._.bind(this);
-        const input = document.createElement("input"); input.type = "file"; input.accept = ".json";
+        const input = activeDocument.createElement("input"); input.type = "file"; input.accept = ".json";
         input.addEventListener("change", async () => {
             const file = input.files?.[0]; if (!file) return;
             try {

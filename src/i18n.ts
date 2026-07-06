@@ -17,8 +17,6 @@
  * Missing keys fall back to the English value.
  */
 
-import type { LatexAssistantSettings } from "./settings";
-
 // ============================================================================
 // Translation Maps
 // ============================================================================

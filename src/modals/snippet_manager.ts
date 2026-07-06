@@ -59,7 +59,6 @@ export class SnippetManagerModal extends Modal {
                 text.setValue(this.triggerValue);
                 text.setPlaceholder(_("snippetEditor.trigger.placeholder"));
                 text.onChange((value) => { this.triggerValue = value.trim(); });
-                text.inputEl.style.width = "200px";
             });
 
         // Template
@@ -70,9 +69,6 @@ export class SnippetManagerModal extends Modal {
                 text.setValue(this.replacementValue);
                 text.setPlaceholder(_("snippetEditor.template.placeholder"));
                 text.onChange((value) => { this.replacementValue = value; });
-                text.inputEl.style.width = "100%";
-                text.inputEl.style.minHeight = "80px";
-                text.inputEl.style.fontFamily = "monospace";
             });
 
         // Description
@@ -83,7 +79,6 @@ export class SnippetManagerModal extends Modal {
                 text.setValue(this.descriptionValue);
                 text.setPlaceholder(_("snippetEditor.description.placeholder"));
                 text.onChange((value) => { this.descriptionValue = value.trim(); });
-                text.inputEl.style.width = "300px";
             });
 
         // Flags
@@ -94,7 +89,6 @@ export class SnippetManagerModal extends Modal {
                 text.setValue(this.flagsValue);
                 text.setPlaceholder(_("snippetEditor.flags.placeholder"));
                 text.onChange((value) => { this.flagsValue = value.trim(); });
-                text.inputEl.style.width = "100px";
             });
 
         // Priority
@@ -104,31 +98,17 @@ export class SnippetManagerModal extends Modal {
             .addSlider((slider) => {
                 slider.setValue(this.priorityValue);
                 slider.setLimits(0, 100, 1);
-                slider.setDynamicTooltip();
                 slider.onChange((value) => { this.priorityValue = value; });
             });
 
         // Preview
         const previewSection = contentEl.createDiv({ cls: "latex-assistant-preview-section" });
         previewSection.createEl("h3", { text: _("snippetEditor.preview.title") });
-        const previewEl = previewSection.createDiv({
-            cls: "latex-assistant-preview-content",
-            attr: { style: "font-family: monospace; padding: 8px; background: var(--background-secondary); border-radius: 4px; min-height: 40px; white-space: pre-wrap;" },
-        });
+        const previewEl = previewSection.createDiv({ cls: "latex-assistant-preview-content" });
 
         const updatePreview = () => {
             const template = this.replacementValue || "";
-            const highlighted = template.replace(
-                /#\{(\d+)(?::([^}]*))?\}/g,
-                (_match: string, index: string, text: string) => {
-                    const style = index === "0"
-                        ? "color: var(--text-faint);"
-                        : "color: var(--text-accent); font-weight: bold;";
-                    return `<span style="${style}">#{${index}${text ? ":" + text : ""}}</span>`;
-                }
-            );
-            // Plain text only — safe from XSS in imported snippet templates
-            const plain = template.replace(/#\{(\d+)(?::([^}]*))?\}/g, (_m: string, i: string, t: string) => t || `#${i}`);
+            const plain = template.replace(/#\{(\d+)(?::([^}]*))?\}/g, (_m: string, _i: string, t: string) => t || "#");
             previewEl.textContent = plain || _("snippetEditor.preview.empty");
         };
         updatePreview();
@@ -151,7 +131,6 @@ export class SnippetManagerModal extends Modal {
             contentEl.createDiv({
                 cls: "latex-assistant-validation-warning",
                 text: _("snippetEditor.validationWarning"),
-                attr: { style: "color: var(--text-warning); margin-top: 10px;" },
             });
         }
     }

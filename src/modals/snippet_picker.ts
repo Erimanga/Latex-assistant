@@ -5,7 +5,6 @@
 
 import { FuzzySuggestModal, type App, type FuzzyMatch } from "obsidian";
 import type { Snippet } from "../types/snippet";
-import { previewSnippet } from "../snippets/engine";
 import { t } from "../i18n";
 
 export class SnippetPickerModal extends FuzzySuggestModal<Snippet> {

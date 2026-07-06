@@ -31,7 +31,7 @@ export default class LatexAssistantPlugin extends Plugin {
     }
 
     onunload(): void {
-        this.saveData(this.settings);
+        void this.saveData(this.settings);
     }
 
     private registerCommands(): void {
@@ -47,7 +47,7 @@ export default class LatexAssistantPlugin extends Plugin {
             const sn = BUILTIN_SNIPPETS.find((s) => s.trigger === tr);
             if (!sn) continue;
             this.addCommand({
-                id: `latex-assistant:insert-${tr}`,
+                id: `insert-${tr}`,
                 name: t(nameKeys[tr] || `LaTeX: ${sn.description}`, lang),
                 editorCallback: (editor: Editor, _ctx: MarkdownFileInfo) => {
                     const cm = (editor as any).cm as EditorView | undefined;
@@ -58,7 +58,7 @@ export default class LatexAssistantPlugin extends Plugin {
             });
         }
         this.addCommand({
-            id: "latex-assistant:open-picker",
+            id: "open-picker",
             name: t("commands.openPicker", lang),
             editorCallback: (editor: Editor, _ctx: MarkdownFileInfo) => {
                 const cm = (editor as any).cm as EditorView | undefined;
