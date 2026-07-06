@@ -35,7 +35,9 @@ npm run build
 
 #### 从 Release 安装
 
-下载 `main.js`、`manifest.json`、`styles.css` 放入 `<vault>/.obsidian/plugins/latex-assistant/`，重启 Obsidian。
+1. 从 [Releases](https://github.com/Erimanga/Latex-assistant/releases) 下载 `main.js`、`manifest.json`、`styles.css`
+2. 放入 `<vault>/.obsidian/plugins/latex-assistant/`
+3. 重启 Obsidian，在设置中启用插件
 
 ### 使用
 
@@ -135,7 +137,7 @@ npm install --legacy-peer-deps
 npm run build
 ```
 
-Or download `main.js`, `manifest.json`, `styles.css` from Releases.
+Or download `main.js`, `manifest.json`, `styles.css` from [Releases](https://github.com/Erimanga/Latex-assistant/releases).
 
 ### Usage
 
