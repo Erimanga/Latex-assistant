@@ -12,28 +12,13 @@
 
 | 功能 | 说明 |
 |------|------|
-| 💲 `$` 自动配对 | 按 `$` → `$\|$`，再按 `$` → `$$\n\|\n$$` |
-| / Slash 命令 | `$$` 中间按 `/` → 搜索并插入 LaTeX 片段 |
-| ⚡ Snippet 展开 | 输入触发词 + Tab → 展开为 LaTeX 代码 |
-| ✏️ 自定义片段 | 设置页增删改查 + JSON 导入导出 |
-| 🌐 双语界面 | English / 简体中文，一键切换 |
-| 🎯 数学感知 | 仅在 `$...$` `$$...$$` 中激活 |
+|`$` 自动配对 | 按 `$` → `$\|$`，再按 `$` → `$$\n\|\n$$` |
+| Slash 命令 | `$$` 中间按 `/` → 搜索并插入 LaTeX 片段 |
+| Snippet 展开 | 输入触发词 + Tab → 展开为 LaTeX 代码 |
+| 自定义片段 | 设置页增删改查 + JSON 导入导出 |
+| 数学感知 | 仅在 `$...$` `$$...$$` 中激活 |
 
 ### 安装
-
-#### 手动安装
-
-```bash
-cd <vault>/.obsidian/plugins
-git clone https://github.com/Erimanga/Latex-assistant.git
-cd Latex-assistant
-npm install --legacy-peer-deps
-npm run build
-```
-
-然后在 Obsidian 设置 → 第三方插件 → 启用 **LaTeX Assistant**。
-
-#### 从 Release 安装
 
 1. 从 [Releases](https://github.com/Erimanga/Latex-assistant/releases) 下载 `main.js`、`manifest.json`、`styles.css`
 2. 放入 `<vault>/.obsidian/plugins/latex-assistant/`
@@ -86,67 +71,70 @@ npm run dev        # watch
 npm run build      # 生产构建
 ```
 
-```
-src/
-├── main.ts                  # 入口
-├── i18n.ts                  # 双语
-├── settings.ts / _tab.ts    # 设置
-├── types/snippet.ts
-├── snippets/
-│   ├── builtin.ts           # 内置片段
-│   ├── engine.ts            # 匹配与展开
-│   └── tracker.ts           # StateField
-├── features/
-│   ├── auto_close_dollar.ts # $ 配对
-│   ├── math_context.ts      # 数学检测
-│   └── slash_command.ts     # / 命令
-├── editor/
-│   ├── index.ts
-│   └── keymap.ts
-└── modals/
-    ├── snippet_picker.ts    # 片段选择器
-    └── snippet_manager.ts   # 片段编辑器
-```
-
-### License
-
-MIT
-
----
-
 ## English
 
 ### Features
 
 | Feature | Description |
 |---------|-------------|
-| 💲 `$` auto-pair | Press `$` → `$\|$`, press again → `$$\n\|\n$$` |
-| / Slash command | `/` inside `$$` → search & insert LaTeX snippet |
-| ⚡ Snippet expansion | Trigger word + Tab → clean LaTeX |
-| ✏️ Custom snippets | Add/edit/delete + JSON import/export |
-| 🌐 Bilingual UI | English / 简体中文 |
-| 🎯 Math-aware | Only activates inside `$...$` `$$...$$` |
+| `$` auto-pair | Press `$` → `$\|$`, press again → `$$\n\|\n$$` |
+| Slash command | `/` inside `$$` → search & insert LaTeX snippet |
+| Snippet expansion | Trigger word + Tab → clean LaTeX code |
+| Custom snippets | Add/edit/delete + JSON import/export |
+| Math-aware | Only activates inside `$...$` `$$...$$` |
 
 ### Installation
 
-```bash
-cd <vault>/.obsidian/plugins
-git clone https://github.com/Erimanga/Latex-assistant.git
-cd Latex-assistant
-npm install --legacy-peer-deps
-npm run build
-```
-
-Or download `main.js`, `manifest.json`, `styles.css` from [Releases](https://github.com/Erimanga/Latex-assistant/releases).
+1. Download `main.js`, `manifest.json`, `styles.css` from [Releases](https://github.com/Erimanga/Latex-assistant/releases)
+2. Place them in `<vault>/.obsidian/plugins/latex-assistant/`
+3. Restart Obsidian, enable the plugin in Settings
 
 ### Usage
 
-| Key | Action |
-|-----|--------|
-| `$` | Auto-pair inline `$\|$` |
-| `$` again | Convert to display `$$\n\|\n$$` |
-| `/` in math | Open snippet picker |
-| `frac` + Tab | Expand to `\frac{num}{den}` |
+#### $ auto-pair
+
+| Action | Result |
+|--------|--------|
+| Press `$` | `$\|$` cursor in the middle |
+| Press `$` again | `$$\n\|\n$$` display math |
+
+#### / Slash command
+
+Press `/` inside `$$` → search snippet → Enter to insert. Clean LaTeX, cursor lands at the first editable position.
+
+#### Snippet triggers
+
+Type a trigger, press **Tab** to expand:
+
+| Trigger | Expands to |
+|---------|------------|
+| `frac` | `\frac{num}{den}` |
+| `cases` | Cases environment 2×2 |
+| `bmatrix` | Bracket matrix |
+| `aligned` | Aligned equations |
+| `sum` | Summation |
+| `int` | Integral |
+| `lim` | Limit |
+| `sqrt` | Square root |
+
+### Settings
+
+| Setting | Description |
+|---------|-------------|
+| Language | English / 简体中文 |
+| `$` auto-pair | Toggle |
+| Snippet expansion | Toggle |
+| Slash command | Toggle |
+| Math-aware | Only in math mode |
+| Custom snippets | CRUD / JSON import-export |
+
+### Development
+
+```bash
+npm install --legacy-peer-deps
+npm run dev        # watch
+npm run build      # production build
+```
 
 ### License
 
