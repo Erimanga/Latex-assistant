@@ -26,8 +26,6 @@ export class LatexAssistantSettingTab extends PluginSettingTab {
         const _ = this._.bind(this);
         containerEl.empty();
 
-        new Setting(containerEl).setName("LaTeX Assistant").setHeading();
-
         // Language
         new Setting(containerEl)
             .setName(_("settings.language.name"))
