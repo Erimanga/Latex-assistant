@@ -46,6 +46,8 @@
 
 按 **Tab** 或 **Enter** 展开选中项。
 
+![补全弹窗](https://github.com/user-attachments/assets/3d89e27a-d69d-4492-9970-196ff6db6904)
+
 #### / Slash 命令
 
 `$$` 中间按 `/` → 搜索片段 → Enter 插入。干净的 LaTeX 代码，光标自动落在第一个可编辑位置。
@@ -125,6 +127,8 @@ Type a few letters of a trigger word to see suggestions:
 | `bm` | `bmatrix` Bracket matrix |
 
 Press **Tab** or **Enter** to expand.
+
+![completion popup](https://github.com/user-attachments/assets/3d89e27a-d69d-4492-9970-196ff6db6904)
 
 #### / Slash command
 
