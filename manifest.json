@@ -1,0 +1,9 @@
+{
+  "id": "latex-assistant",
+  "name": "LaTeX Assistant",
+  "version": "1.0.0",
+  "minAppVersion": "0.15.0",
+  "description": "VSCode+LaTeX Workshop-like editing experience: snippets, auto-completion, smart newlines, bracket pairing, and more.",
+  "author": "",
+  "isDesktopOnly": false
+}

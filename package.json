@@ -1,0 +1,32 @@
+{
+  "name": "obsidian-latex-assistant",
+  "version": "1.0.0",
+  "description": "VSCode+LaTeX Workshop-like LaTeX editing experience for Obsidian: snippets, auto-completion, smart newlines, bracket pairing, and more.",
+  "main": "main.js",
+  "scripts": {
+    "dev": "node esbuild.config.mjs",
+    "build": "tsc -noEmit -skipLibCheck && node esbuild.config.mjs production",
+    "typecheck": "tsc -noEmit -skipLibCheck",
+    "deploy": "cp main.js manifest.json styles.css /mnt/d/obsidian/store/MyKnowledge/.obsidian/plugins/latex-assistant/"
+  },
+  "keywords": [
+    "obsidian",
+    "plugin",
+    "latex",
+    "math",
+    "snippet"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "obsidian": "latest"
+  },
+  "devDependencies": {
+    "@codemirror/autocomplete": "^6.15.0",
+    "@codemirror/language": "^6.10.0",
+    "@codemirror/state": "^6.5.0",
+    "@codemirror/view": "^6.26.0",
+    "esbuild": "^0.20.0",
+    "typescript": "^5.4.0"
+  }
+}

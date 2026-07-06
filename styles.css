@@ -1,0 +1,186 @@
+/**
+ * LaTeX Assistant — Plugin Styles
+ *
+ * CSS classes for:
+ *   - Placeholder decorations (tab stop markers)
+ *   - Suggestion menu items
+ *   - Snippet picker modal
+ */
+
+/* ==========================================================================
+   Tab Stop Decorations
+   ========================================================================== */
+
+/* Currently active tab stop — the placeholder the user is about to overwrite */
+.latex-assistant-active-tabstop {
+    background-color: var(--text-accent);
+    color: var(--text-on-accent);
+    border-radius: 3px;
+    padding: 0 2px;
+    font-weight: bold;
+    animation: latex-assistant-pulse 1.5s ease-in-out infinite;
+}
+
+/* Inactive tab stops (not yet visited or already visited) */
+.latex-assistant-inactive-tabstop {
+    border-bottom: 2px dashed var(--text-accent);
+    color: var(--text-muted);
+}
+
+/* Exit tab stop (${0}) — dimmed */
+.latex-assistant-exit-tabstop {
+    color: var(--text-faint);
+    font-style: italic;
+    opacity: 0.6;
+}
+
+/* Pulse animation for active tab stop */
+@keyframes latex-assistant-pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.7; }
+}
+
+/* ==========================================================================
+   Suggestion Menu Items
+   ========================================================================== */
+
+.latex-assistant-suggestion-item {
+    padding: 6px 0;
+}
+
+.latex-assistant-suggestion-row1 {
+    display: flex;
+    align-items: baseline;
+    gap: 4px;
+}
+
+.latex-assistant-suggestion-trigger {
+    font-weight: bold;
+    font-family: var(--font-monospace);
+    color: var(--text-accent);
+}
+
+.latex-assistant-suggestion-arrow {
+    color: var(--text-muted);
+    font-size: 0.85em;
+}
+
+.latex-assistant-suggestion-desc {
+    color: var(--text-normal);
+    flex: 1;
+}
+
+/* Preview — monospace, single line, subtle */
+.latex-assistant-suggestion-preview {
+    font-family: var(--font-monospace);
+    font-size: 0.78em;
+    color: var(--text-faint);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin-top: 2px;
+    padding-left: 4px;
+}
+
+/* Badge */
+.latex-assistant-suggestion-badge {
+    font-size: 0.65em;
+    padding: 1px 6px;
+    border-radius: 8px;
+    flex-shrink: 0;
+}
+.latex-assistant-suggestion-badge.is-builtin {
+    background: var(--background-modifier-border);
+    color: var(--text-muted);
+}
+.latex-assistant-suggestion-badge.is-custom {
+    background: var(--text-accent);
+    color: var(--text-on-accent);
+}
+
+/* ==========================================================================
+   Slash Command Picker
+   ========================================================================== */
+
+.latex-assistant-slash-preview {
+    font-family: var(--font-monospace);
+    font-size: 0.85em;
+    color: var(--text-muted);
+    white-space: pre-wrap;
+}
+
+/* ==========================================================================
+   Snippet Manager Modal
+   ========================================================================== */
+
+.latex-assistant-preview-section {
+    margin-top: 16px;
+    padding: 12px;
+    border: 1px solid var(--background-modifier-border);
+    border-radius: 6px;
+}
+
+.latex-assistant-preview-content {
+    font-family: var(--font-monospace);
+    padding: 8px;
+    background: var(--background-secondary);
+    border-radius: 4px;
+    min-height: 40px;
+    white-space: pre-wrap;
+}
+
+/* ==========================================================================
+   Custom Snippet List (Settings Tab)
+   ========================================================================== */
+
+.latex-assistant-snippet-list {
+    margin-top: 8px;
+}
+
+.latex-assistant-snippet-items {
+    border: 1px solid var(--background-modifier-border);
+    border-radius: 6px;
+    overflow: hidden;
+}
+
+.latex-assistant-snippet-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 8px 12px;
+}
+.latex-assistant-snippet-item:not(:last-child) {
+    border-bottom: 1px solid var(--background-modifier-border);
+}
+.latex-assistant-snippet-item:hover {
+    background: var(--background-secondary);
+}
+
+.latex-assistant-snippet-trigger {
+    font-weight: bold;
+    font-family: var(--font-monospace);
+}
+
+/* ==========================================================================
+   Button Sections
+   ========================================================================== */
+
+.latex-assistant-button-section {
+    margin-top: 20px;
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+}
+
+/* ==========================================================================
+   Dark Mode Adjustments
+   ========================================================================== */
+
+.theme-dark .latex-assistant-active-tabstop {
+    background-color: var(--text-accent);
+    color: var(--background-primary);
+}
+
+.theme-dark .latex-assistant-inactive-tabstop {
+    border-bottom-color: var(--text-accent);
+}
