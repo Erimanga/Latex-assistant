@@ -12,9 +12,10 @@
 
 | 功能 | 说明 |
 |------|------|
-|`$` 自动配对 | 按 `$` → `$\|$`，再按 `$` → `$$\n\|\n$$` |
+| `$` 自动配对 | 按 `$` → `$\|$`，再按 `$` → `$$\n\|\n$$` |
 | Slash 命令 | `$$` 中间按 `/` → 搜索并插入 LaTeX 片段 |
-| Snippet 展开 | 输入触发词 + Tab → 展开为 LaTeX 代码 |
+| 智能补全 | 输入触发词自动弹出补全提示，Tab / Enter 展开 |
+| Snippet 展开 | 输入完整触发词 + Tab → 展开为 LaTeX 代码 |
 | 自定义片段 | 设置页增删改查 + JSON 导入导出 |
 | 数学感知 | 仅在 `$...$` `$$...$$` 中激活 |
 
@@ -32,6 +33,18 @@
 |------|------|
 | 按 `$` | `$\|$` 光标在中间 |
 | 再按 `$` | `$$\n\|\n$$` 转为行间公式 |
+
+#### 智能补全
+
+输入触发词的前几个字母，自动弹出补全提示：
+
+| 输入 | 弹出 |
+|------|------|
+| `ca` | `cases` Cases 分段函数 2×2 |
+| `fr` | `frac` Fraction 分数 |
+| `bm` | `bmatrix` Bracket Matrix 方括号矩阵 |
+
+按 **Tab** 或 **Enter** 展开选中项。
 
 #### / Slash 命令
 
@@ -79,7 +92,8 @@ npm run build      # 生产构建
 |---------|-------------|
 | `$` auto-pair | Press `$` → `$\|$`, press again → `$$\n\|\n$$` |
 | Slash command | `/` inside `$$` → search & insert LaTeX snippet |
-| Snippet expansion | Trigger word + Tab → clean LaTeX code |
+| Smart completion | Type trigger prefix → popup suggestions, Tab/Enter to expand |
+| Snippet expansion | Full trigger + Tab → clean LaTeX code |
 | Custom snippets | Add/edit/delete + JSON import/export |
 | Math-aware | Only activates inside `$...$` `$$...$$` |
 
@@ -97,6 +111,18 @@ npm run build      # 生产构建
 |--------|--------|
 | Press `$` | `$\|$` cursor in the middle |
 | Press `$` again | `$$\n\|\n$$` display math |
+
+#### Smart completion
+
+Type a few letters of a trigger word to see suggestions:
+
+| Type | Suggests |
+|------|----------|
+| `ca` | `cases` Cases environment |
+| `fr` | `frac` Fraction |
+| `bm` | `bmatrix` Bracket matrix |
+
+Press **Tab** or **Enter** to expand.
 
 #### / Slash command
 
