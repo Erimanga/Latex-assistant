@@ -17,13 +17,16 @@ export interface SnippetContext {
 
 export function getSnippetContext(
     state: { selection: { main: { head: number } }; doc: { toString(): string } },
-    settings: LatexAssistantSettings
+    settings: LatexAssistantSettings,
+    triggerStart?: number
 ): SnippetContext {
     const cursor = state.selection.main.head;
     const doc = state.doc.toString();
+    // charBefore = char before the trigger word, NOT before cursor
+    const boundary = triggerStart ?? cursor;
     return {
         inMath: settings.mathContextAware ? isCursorInMath(state as any) : true,
-        charBefore: cursor > 0 ? doc[cursor - 1] : "",
+        charBefore: boundary > 0 ? doc[boundary - 1] : "",
     };
 }
 

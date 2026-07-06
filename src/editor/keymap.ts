@@ -3,6 +3,7 @@
  */
 
 import { keymap } from "@codemirror/view";
+import { Prec } from "@codemirror/state";
 import type { EditorView, KeyBinding } from "@codemirror/view";
 import type { Plugin } from "obsidian";
 import { matchSnippet, getWordBeforeCursor, expandSnippet, getAllSnippets, getSnippetContext } from "../snippets/engine";
@@ -18,8 +19,10 @@ export function createKeymapExtension(plugin: Plugin, settings: LatexAssistantSe
             const cursor = view.state.selection.main.head;
             const trigger = getWordBeforeCursor(view.state.doc.toString(), cursor);
             if (!trigger) return false;
-            const ctx = getSnippetContext(view.state, settings);
-            const matched = matchSnippet(trigger, getAllSnippets(settings), ctx);
+            const triggerStart = cursor - trigger.length;
+            const ctx = getSnippetContext(view.state, settings, triggerStart);
+            const snippets = getAllSnippets(settings);
+            const matched = matchSnippet(trigger, snippets, ctx);
             if (matched) { expandSnippet(view, matched); return true; }
             return false;
         }},
@@ -38,5 +41,5 @@ export function createKeymapExtension(plugin: Plugin, settings: LatexAssistantSe
             return false;
         }},
     ];
-    return keymap.of(bindings);
+    return Prec.highest(keymap.of(bindings));
 }
