@@ -14,8 +14,7 @@
 |------|------|
 | `$` 自动配对 | 按 `$` → `$\|$`，再按 `$` → `$$\n\|\n$$` |
 | Slash 命令 | `$$` 中间按 `/` → 搜索并插入 LaTeX 片段 |
-| 智能补全 | 输入触发词自动弹出补全提示，Tab / Enter 展开 |
-| Snippet 展开 | 输入完整触发词 + Tab → 展开为 LaTeX 代码 |
+| Snippet 展开 | 输入触发词自动弹出补全提示，Tab / Enter 展开；或输入完整触发词直接按 Tab |
 | 自定义片段 | 设置页增删改查 + JSON 导入导出 |
 | 数学感知 | 仅在 `$...$` `$$...$$` 中激活 |
 
@@ -34,29 +33,13 @@
 | 按 `$` | `$\|$` 光标在中间 |
 | 再按 `$` | `$$\n\|\n$$` 转为行间公式 |
 
-#### 智能补全
+#### Snippet 展开
 
-输入触发词的前几个字母，自动弹出补全提示：
-
-| 输入 | 弹出 |
-|------|------|
-| `ca` | `cases` Cases 分段函数 2×2 |
-| `fr` | `frac` Fraction 分数 |
-| `bm` | `bmatrix` Bracket Matrix 方括号矩阵 |
-
-按 **Tab** 或 **Enter** 展开选中项。
+输入触发词的前几个字母，自动弹出补全提示，按 **Tab** 或 **Enter** 展开；也可以输入完整触发词后直接按 **Tab**。
 
 ![补全弹窗](https://github.com/user-attachments/assets/3d89e27a-d69d-4492-9970-196ff6db6904)
 
-#### / Slash 命令
-
-`$$` 中间按 `/` → 搜索片段 → Enter 插入。干净的 LaTeX 代码，光标自动落在第一个可编辑位置。
-
-![slash菜单](https://github.com/user-attachments/assets/a84e6db3-1f0e-4e2b-bc30-414f2f6d0e1c)
-
-#### Snippet 触发词
-
-输入触发词，按 **Tab** 展开：
+常用触发词：
 
 | 输入 | 展开 |
 |------|------|
@@ -68,6 +51,12 @@
 | `int` | 积分 |
 | `lim` | 极限 |
 | `sqrt` | 根号 |
+
+#### / Slash 命令
+
+`$$` 中间按 `/` → 搜索片段 → Enter 插入。干净的 LaTeX 代码，光标自动落在第一个可编辑位置。
+
+![slash菜单](https://github.com/user-attachments/assets/a84e6db3-1f0e-4e2b-bc30-414f2f6d0e1c)
 
 ### 设置
 
@@ -96,8 +85,7 @@ npm run build      # 生产构建
 |---------|-------------|
 | `$` auto-pair | Press `$` → `$\|$`, press again → `$$\n\|\n$$` |
 | Slash command | `/` inside `$$` → search & insert LaTeX snippet |
-| Smart completion | Type trigger prefix → popup suggestions, Tab/Enter to expand |
-| Snippet expansion | Full trigger + Tab → clean LaTeX code |
+| Snippet expansion | Type trigger prefix → popup suggestions → Tab/Enter to expand; or type full trigger + Tab |
 | Custom snippets | Add/edit/delete + JSON import/export |
 | Math-aware | Only activates inside `$...$` `$$...$$` |
 
@@ -116,29 +104,13 @@ npm run build      # 生产构建
 | Press `$` | `$\|$` cursor in the middle |
 | Press `$` again | `$$\n\|\n$$` display math |
 
-#### Smart completion
+#### Snippet expansion
 
-Type a few letters of a trigger word to see suggestions:
-
-| Type | Suggests |
-|------|----------|
-| `ca` | `cases` Cases environment |
-| `fr` | `frac` Fraction |
-| `bm` | `bmatrix` Bracket matrix |
-
-Press **Tab** or **Enter** to expand.
+Type a few letters of a trigger word to see completion suggestions. Press **Tab** or **Enter** to expand. You can also type the full trigger and press Tab directly.
 
 ![completion popup](https://github.com/user-attachments/assets/3d89e27a-d69d-4492-9970-196ff6db6904)
 
-#### / Slash command
-
-Press `/` inside `$$` → search snippet → Enter to insert. Clean LaTeX, cursor lands at the first editable position.
-
-![slash menu](https://github.com/user-attachments/assets/a84e6db3-1f0e-4e2b-bc30-414f2f6d0e1c)
-
-#### Snippet triggers
-
-Type a trigger, press **Tab** to expand:
+Common triggers:
 
 | Trigger | Expands to |
 |---------|------------|
@@ -150,6 +122,12 @@ Type a trigger, press **Tab** to expand:
 | `int` | Integral |
 | `lim` | Limit |
 | `sqrt` | Square root |
+
+#### / Slash command
+
+Press `/` inside `$$` → search snippet → Enter to insert. Clean LaTeX, cursor lands at the first editable position.
+
+![slash menu](https://github.com/user-attachments/assets/a84e6db3-1f0e-4e2b-bc30-414f2f6d0e1c)
 
 ### Settings
 
