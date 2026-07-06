@@ -14,7 +14,7 @@
 |------|------|
 | `$` 自动配对 | 按 `$` → `$\|$`，再按 `$` → `$$\n\|\n$$` |
 | Slash 命令 | `$$` 中间按 `/` → 搜索并插入 LaTeX 片段 |
-| Snippet 展开 | 输入触发词自动弹出补全提示，Tab / Enter 展开；或输入完整触发词直接按 Tab |
+| Snippet 展开 | 输入触发词自动弹出补全提示，Enter 展开；或输入完整触发词直接按 Tab |
 | 自定义片段 | 设置页增删改查 + JSON 导入导出 |
 | 数学感知 | 仅在 `$...$` `$$...$$` 中激活 |
 
@@ -85,7 +85,7 @@ npm run build      # 生产构建
 |---------|-------------|
 | `$` auto-pair | Press `$` → `$\|$`, press again → `$$\n\|\n$$` |
 | Slash command | `/` inside `$$` → search & insert LaTeX snippet |
-| Snippet expansion | Type trigger prefix → popup suggestions → Tab/Enter to expand; or type full trigger + Tab |
+| Snippet expansion | Type trigger prefix → popup suggestions → Enter to expand; or type full trigger + Tab |
 | Custom snippets | Add/edit/delete + JSON import/export |
 | Math-aware | Only activates inside `$...$` `$$...$$` |
 

@@ -40,7 +40,7 @@ export class SnippetPickerModal extends FuzzySuggestModal<Snippet> {
     }
 
     getItemText(item: Snippet): string {
-        return `${item.trigger} ${item.description} ${previewSnippet(item.replacement)}`;
+        return `${item.trigger} ${item.description}`;
     }
 
     renderSuggestion(match: FuzzyMatch<Snippet>, el: HTMLElement): void {
@@ -64,14 +64,6 @@ export class SnippetPickerModal extends FuzzySuggestModal<Snippet> {
             text: badgeText,
         });
 
-        // Row 2: LaTeX preview (monospace, one line)
-        const preview = previewSnippet(item.replacement);
-        if (preview) {
-            const previewEl = container.createDiv({
-                cls: "latex-assistant-suggestion-preview",
-                text: preview.slice(0, 80) + (preview.length > 80 ? " …" : ""),
-            });
-        }
     }
 
     private _chosen = false;
