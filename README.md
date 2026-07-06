@@ -56,7 +56,7 @@
 
 `$$` 中间按 `/` → 搜索片段 → Enter 插入。干净的 LaTeX 代码，光标自动落在第一个可编辑位置。
 
-![slash菜单](https://github.com/user-attachments/assets/a84e6db3-1f0e-4e2b-bc30-414f2f6d0e1c)
+![slash菜单](https://github.com/user-attachments/assets/38bbc797-ff50-467d-b740-30f2f909cd08)
 
 ### 设置
 
