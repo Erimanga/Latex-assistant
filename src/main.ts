@@ -10,7 +10,7 @@ import type { EditorView } from "@codemirror/view";
 import { type LatexAssistantSettings, DEFAULT_SETTINGS } from "./settings";
 import { LatexAssistantSettingTab } from "./settings_tab";
 import { buildAllExtensions } from "./editor/index";
-import { expandSnippet, getAllSnippets } from "./snippets/engine";
+import { expandSnippet, getAllSnippets, recordUsage } from "./snippets/engine";
 import { BUILTIN_SNIPPETS } from "./snippets/builtin";
 import { SnippetPickerModal } from "./modals/snippet_picker";
 import type { Snippet } from "./types/snippet";
@@ -28,6 +28,10 @@ export default class LatexAssistantPlugin extends Plugin {
 
     async loadSettings(): Promise<void> {
         this.settings = Object.assign({}, DEFAULT_SETTINGS, await this.loadData() ?? {});
+    }
+
+    onunload(): void {
+        this.saveData(this.settings);
     }
 
     private registerCommands(): void {
@@ -48,6 +52,7 @@ export default class LatexAssistantPlugin extends Plugin {
                 editorCallback: (editor: Editor, _ctx: MarkdownFileInfo) => {
                     const cm = (editor as any).cm as EditorView | undefined;
                     if (!cm) { new Notice(t("notices.noEditor", lang)); return; }
+                    recordUsage(this.settings, sn.id);
                     expandSnippet(cm, sn, cm.state.selection.main.head);
                 },
             });
@@ -60,8 +65,8 @@ export default class LatexAssistantPlugin extends Plugin {
                 if (!cm) return;
                 const ss = getAllSnippets(this.settings);
                 new SnippetPickerModal(this.app, ss, this.settings.language,
-                    (s: Snippet) => expandSnippet(cm, s, cm.state.selection.main.head),
-                    () => {}).open();
+                    (s: Snippet) => { recordUsage(this.settings, s.id); expandSnippet(cm, s, cm.state.selection.main.head); },
+                    () => {}, this.settings.snippetUsage).open();
             },
         });
     }

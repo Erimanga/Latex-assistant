@@ -6,7 +6,7 @@ import { keymap } from "@codemirror/view";
 import { Prec } from "@codemirror/state";
 import type { EditorView, KeyBinding } from "@codemirror/view";
 import type { Plugin } from "obsidian";
-import { matchSnippet, getWordBeforeCursor, expandSnippet, getAllSnippets, getSnippetContext } from "../snippets/engine";
+import { matchSnippet, getWordBeforeCursor, expandSnippet, getAllSnippets, getSnippetContext, recordUsage } from "../snippets/engine";
 import { isCursorInMath } from "../features/math_context";
 import { openSlashCommandModal } from "../features/slash_command";
 import { handleDollarKey } from "../features/auto_close_dollar";
@@ -23,7 +23,7 @@ export function createKeymapExtension(plugin: Plugin, settings: LatexAssistantSe
             const ctx = getSnippetContext(view.state, settings, triggerStart);
             const snippets = getAllSnippets(settings);
             const matched = matchSnippet(trigger, snippets, ctx);
-            if (matched) { expandSnippet(view, matched); return true; }
+            if (matched) { recordUsage(settings, matched.id); expandSnippet(view, matched); return true; }
             return false;
         }},
         { key: "$", run: (view: EditorView): boolean => {

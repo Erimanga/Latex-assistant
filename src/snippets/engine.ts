@@ -119,8 +119,23 @@ export function getAllSnippets(settings: LatexAssistantSettings): Snippet[] {
     const snippets: Snippet[] = [];
     if (settings.enableBuiltinSnippets) snippets.push(...BUILTIN_SNIPPETS);
     snippets.push(...settings.customSnippets);
-    snippets.sort((a, b) => b.priority - a.priority);
+    // Top 3 by recent usage, rest by priority
+    const usage = settings.snippetUsage || {};
+    snippets.sort((a, b) => {
+        const ua = usage[a.id] || 0;
+        const ub = usage[b.id] || 0;
+        if (ua && ub) return ub - ua;       // both used: recent first
+        if (ua) return -1;                   // only a used: a first
+        if (ub) return 1;                    // only b used: b first
+        return b.priority - a.priority;      // neither used: by priority
+    });
     return snippets;
+}
+
+/** Record that a snippet was just used. */
+export function recordUsage(settings: LatexAssistantSettings, snippetId: string): void {
+    if (!settings.snippetUsage) settings.snippetUsage = {};
+    settings.snippetUsage[snippetId] = Date.now();
 }
 
 export function previewSnippet(replacement: string): string {

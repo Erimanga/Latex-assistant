@@ -97,6 +97,10 @@
     background: var(--text-accent);
     color: var(--text-on-accent);
 }
+.latex-assistant-suggestion-badge.is-recent {
+    background: #e67e22;
+    color: #fff;
+}
 
 /* ==========================================================================
    Slash Command Picker

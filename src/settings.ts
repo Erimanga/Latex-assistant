@@ -12,6 +12,7 @@ export interface LatexAssistantSettings {
     enableBuiltinSnippets: boolean;
     language: string;
     customSnippets: Snippet[];
+    snippetUsage: Record<string, number>; // snippet id → last used timestamp
 }
 
 export const DEFAULT_SETTINGS: LatexAssistantSettings = {
@@ -22,6 +23,7 @@ export const DEFAULT_SETTINGS: LatexAssistantSettings = {
     enableBuiltinSnippets: true,
     language: "en",
     customSnippets: [],
+    snippetUsage: {},
 };
 
 export function generateSnippetId(): string {

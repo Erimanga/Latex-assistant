@@ -13,19 +13,24 @@ export class SnippetPickerModal extends FuzzySuggestModal<Snippet> {
     private onSelect: (snippet: Snippet) => void;
     private onCancel: () => void;
     private lang: string;
+    private recentIds: Set<string>;
 
     constructor(
         app: App,
         snippets: Snippet[],
         lang: string,
         onSelect: (snippet: Snippet) => void,
-        onCancel: () => void
+        onCancel: () => void,
+        usage?: Record<string, number>
     ) {
         super(app);
         this.snippets = snippets;
         this.onSelect = onSelect;
         this.onCancel = onCancel;
         this.lang = lang;
+        // Top 3 recently used
+        const ranked = Object.entries(usage || {}).sort((a, b) => b[1] - a[1]);
+        this.recentIds = new Set(ranked.slice(0, 3).map(([id]) => id));
 
         this.setPlaceholder(t("snippetPicker.placeholder", lang));
         this.setInstructions([
@@ -63,6 +68,14 @@ export class SnippetPickerModal extends FuzzySuggestModal<Snippet> {
             cls: `latex-assistant-suggestion-badge ${item.isBuiltin ? "is-builtin" : "is-custom"}`,
             text: badgeText,
         });
+
+        // Recent badge
+        if (this.recentIds.has(item.id)) {
+            row1.createSpan({
+                cls: "latex-assistant-suggestion-badge is-recent",
+                text: this.lang === "zh-cn" ? "最近" : "recent",
+            });
+        }
 
     }
 

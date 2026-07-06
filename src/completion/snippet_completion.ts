@@ -5,7 +5,7 @@
 
 import { autocompletion, type CompletionContext, type Completion } from "@codemirror/autocomplete";
 import type { EditorView } from "@codemirror/view";
-import { getAllSnippets, getSnippetContext, expandSnippet } from "../snippets/engine";
+import { getAllSnippets, getSnippetContext, expandSnippet, recordUsage } from "../snippets/engine";
 import type { LatexAssistantSettings } from "../settings";
 
 export function createSnippetCompletionExtension(settings: LatexAssistantSettings) {
@@ -37,6 +37,7 @@ export function createSnippetCompletionExtension(settings: LatexAssistantSetting
                     type: "function" as const,
                     boost: s.trigger === trigger ? 3 : 1,
                     apply: (view: EditorView, _c: Completion, from: number, _to: number) => {
+                        recordUsage(settings, s.id);
                         expandSnippet(view, s, from);
                     },
                 })),
