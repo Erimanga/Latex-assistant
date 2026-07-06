@@ -119,15 +119,20 @@ export function getAllSnippets(settings: LatexAssistantSettings): Snippet[] {
     const snippets: Snippet[] = [];
     if (settings.enableBuiltinSnippets) snippets.push(...BUILTIN_SNIPPETS);
     snippets.push(...settings.customSnippets);
-    // Top 3 by recent usage, rest by priority
+    // Top 3 by recent usage pinned to top; rest stay in priority order
     const usage = settings.snippetUsage || {};
+    const ranked = Object.entries(usage)
+        .sort((a, b) => b[1] - a[1])
+        .slice(0, 3)
+        .map(([id]) => id);
+    const topSet = new Set(ranked);
     snippets.sort((a, b) => {
-        const ua = usage[a.id] || 0;
-        const ub = usage[b.id] || 0;
-        if (ua && ub) return ub - ua;       // both used: recent first
-        if (ua) return -1;                   // only a used: a first
-        if (ub) return 1;                    // only b used: b first
-        return b.priority - a.priority;      // neither used: by priority
+        const aTop = topSet.has(a.id);
+        const bTop = topSet.has(b.id);
+        if (aTop && bTop) return ranked.indexOf(a.id) - ranked.indexOf(b.id); // both top: recency order
+        if (aTop) return -1;    // only a is top
+        if (bTop) return 1;     // only b is top
+        return b.priority - a.priority; // neither top: normal priority
     });
     return snippets;
 }
