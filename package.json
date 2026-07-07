@@ -1,6 +1,6 @@
 {
   "name": "obsidian-latex-assistant",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "VSCode+LaTeX Workshop-like LaTeX editing experience for Obsidian: snippets, auto-completion, smart newlines, bracket pairing, and more.",
   "main": "main.js",
   "scripts": {
