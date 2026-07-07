@@ -19,6 +19,7 @@
 
 import { EditorState } from "@codemirror/state";
 import { syntaxTree } from "@codemirror/language";
+import type { Tree, SyntaxNode } from "@lezer/common";
 
 /**
  * Determine whether the cursor is currently inside a LaTeX math environment.
@@ -82,17 +83,15 @@ export function isInMathRegion(state: EditorState, from: number, to: number): bo
  *   "math_display"                        — alternative display math
  *
  * We check case-insensitively against known math type names.
- * Uses `any` for the tree/node types since Lezer's types are provided
- * at runtime by Obsidian's CodeMirror, not our bundled types.
  */
-function isPosInMathNode(tree: any, pos: number): boolean {
+function isPosInMathNode(tree: Tree, pos: number): boolean {
     const node = tree.resolveInner(pos, -1); // -1 = enter, get deepest node at pos
     if (!node) return false;
 
     // Walk up the ancestor chain
-    let current: any = node;
+    let current: SyntaxNode | null = node;
     while (current) {
-        const name: string = (current.type?.name || "").toLowerCase();
+        const name: string = current.name.toLowerCase();
 
         // Check for math-related node types
         if (
@@ -215,9 +214,9 @@ export function getMathEnvironmentType(state: EditorState): "inline" | "display"
     try {
         const tree = syntaxTree(state);
         if (tree && tree.length > 0) {
-            let node = tree.resolveInner(pos, -1);
+            let node: SyntaxNode | null = tree.resolveInner(pos, -1);
             while (node) {
-                const name = node.type.name.toLowerCase();
+                const name = node.name.toLowerCase();
                 if (name.includes("display") && (name.includes("math") || name.includes("mathblock"))) {
                     return "display";
                 }
@@ -225,7 +224,7 @@ export function getMathEnvironmentType(state: EditorState): "inline" | "display"
                     return "inline";
                 }
                 if (name === "document") break;
-                node = (node as any).parent;
+                node = node.parent;
             }
         }
     } catch {
@@ -260,14 +259,14 @@ export function findMathBoundaries(state: EditorState): { from: number; to: numb
     try {
         const tree = syntaxTree(state);
         if (tree && tree.length > 0) {
-            let node = tree.resolveInner(pos, -1);
+            let node: SyntaxNode | null = tree.resolveInner(pos, -1);
             while (node) {
-                const name = node.type.name.toLowerCase();
+                const name = node.name.toLowerCase();
                 if (name.includes("math") || name === "mathblock") {
-                    return { from: (node as any).from, to: (node as any).to };
+                    return { from: node.from, to: node.to };
                 }
                 if (name === "document") break;
-                node = (node as any).parent;
+                node = node.parent;
             }
         }
     } catch {

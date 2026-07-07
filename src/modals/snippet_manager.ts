@@ -8,6 +8,8 @@ import type { Snippet } from "../types/snippet";
 import { generateSnippetId } from "../settings";
 import { t } from "../i18n";
 
+type LocaleArg = string | number;
+
 export class SnippetManagerModal extends Modal {
     private snippet: Snippet | null;
     private onSave: (snippet: Snippet) => void;
@@ -38,7 +40,7 @@ export class SnippetManagerModal extends Modal {
     }
 
     /** Shorthand translator. */
-    private _(key: string, ...args: any[]): string {
+    private _(key: string, ...args: LocaleArg[]): string {
         return t(key, this.lang, ...args);
     }
 

@@ -37,7 +37,7 @@ export function createKeymapExtension(plugin: Plugin, settings: LatexAssistantSe
             const charBefore = cursor > 0 ? doc[cursor - 1] : "\n";
             const atBoundary = cursor === 0 || /\s/.test(charBefore) || charBefore === "{" || charBefore === "(" || charBefore === "[";
             const inMath = settings.mathContextAware ? isCursorInMath(view.state) : true;
-            if (atBoundary || inMath) { openSlashCommandModal(plugin, view); return true; }
+            if (atBoundary || inMath) { openSlashCommandModal(plugin, view, settings); return true; }
             return false;
         }},
     ];

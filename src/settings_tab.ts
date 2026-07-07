@@ -9,6 +9,8 @@ import { SnippetManagerModal } from "./modals/snippet_manager";
 import { previewSnippet } from "./snippets/engine";
 import { t, SUPPORTED_LANGUAGES } from "./i18n";
 
+type LocaleArg = string | number;
+
 export class LatexAssistantSettingTab extends PluginSettingTab {
     private plugin: LatexAssistantPlugin;
 
@@ -17,7 +19,7 @@ export class LatexAssistantSettingTab extends PluginSettingTab {
         this.plugin = plugin;
     }
 
-    private _(key: string, ...args: any[]): string {
+    private _(key: string, ...args: LocaleArg[]): string {
         return t(key, this.plugin.settings.language, ...args);
     }
 
@@ -111,19 +113,21 @@ export class LatexAssistantSettingTab extends PluginSettingTab {
             const p = previewSnippet(s.replacement);
             if (p) item.createSpan({ text: p.slice(0, 40), cls: "latex-assistant-snippet-preview" });
             const eb = item.createEl("button", { text: "✏️" }); eb.addEventListener("click", () => this.openEditor(s));
-            const db = item.createEl("button", { text: "🗑️" }); db.addEventListener("click", async () => this.deleteSnippet(s.id));
+            const db = item.createEl("button", { text: "🗑️" }); db.addEventListener("click", () => { void this.deleteSnippet(s.id); });
         }
     }
 
     private openEditor(snippet: Snippet | null): void {
-        new SnippetManagerModal(this.app, snippet, this.plugin.settings.language, async (s) => {
-            const ss = this.plugin.settings.customSnippets;
-            const i = ss.findIndex((x) => x.id === s.id);
-            if (i >= 0) ss[i] = s; else ss.push(s);
-            await this.save();
-            new Notice(this._("notices.snippetSaved", s.trigger));
-            const c = this.containerEl.querySelector(".latex-assistant-snippet-list") as HTMLElement;
-            if (c) this.renderList(c);
+        new SnippetManagerModal(this.app, snippet, this.plugin.settings.language, (s) => {
+            void (async () => {
+                const ss = this.plugin.settings.customSnippets;
+                const i = ss.findIndex((x) => x.id === s.id);
+                if (i >= 0) ss[i] = s; else ss.push(s);
+                await this.save();
+                new Notice(this._("notices.snippetSaved", s.trigger));
+                const c = this.containerEl.querySelector(".latex-assistant-snippet-list") as HTMLElement;
+                if (c) this.renderList(c);
+            })();
         }).open();
     }
 
@@ -150,24 +154,26 @@ export class LatexAssistantSettingTab extends PluginSettingTab {
     private importSnippets(): void {
         const _ = this._.bind(this);
         const input = activeDocument.createElement("input"); input.type = "file"; input.accept = ".json";
-        input.addEventListener("change", async () => {
-            const file = input.files?.[0]; if (!file) return;
-            try {
-                const imported = JSON.parse(await file.text()) as Snippet[];
-                if (!Array.isArray(imported)) throw new Error("Invalid format");
-                for (const s of imported) {
-                    if (typeof s.trigger !== "string" || !s.trigger ||
-                        typeof s.replacement !== "string" || !s.replacement)
-                        throw new Error(`Invalid snippet: trigger and replacement must be non-empty strings`);
-                    if (this.plugin.settings.customSnippets.find((cs) => cs.id === s.id))
-                        s.id = `custom:${Date.now()}:${Math.random().toString(36).substring(2, 6)}`;
-                }
-                this.plugin.settings.customSnippets.push(...imported);
-                await this.save();
-                new Notice(_("notices.snippetsImported", imported.length));
-                const c = this.containerEl.querySelector(".latex-assistant-snippet-list") as HTMLElement;
-                if (c) this.renderList(c);
-            } catch (err) { new Notice(_("notices.importFailed", (err as Error).message)); }
+        input.addEventListener("change", () => {
+            void (async () => {
+                const file = input.files?.[0]; if (!file) return;
+                try {
+                    const imported = JSON.parse(await file.text()) as Snippet[];
+                    if (!Array.isArray(imported)) throw new Error("Invalid format");
+                    for (const s of imported) {
+                        if (typeof s.trigger !== "string" || !s.trigger ||
+                            typeof s.replacement !== "string" || !s.replacement)
+                            throw new Error(`Invalid snippet: trigger and replacement must be non-empty strings`);
+                        if (this.plugin.settings.customSnippets.find((cs) => cs.id === s.id))
+                            s.id = `custom:${Date.now()}:${Math.random().toString(36).substring(2, 6)}`;
+                    }
+                    this.plugin.settings.customSnippets.push(...imported);
+                    await this.save();
+                    new Notice(_("notices.snippetsImported", imported.length));
+                    const c = this.containerEl.querySelector(".latex-assistant-snippet-list") as HTMLElement;
+                    if (c) this.renderList(c);
+                } catch (err) { new Notice(_("notices.importFailed", (err as Error).message)); }
+            })();
         });
         input.click();
     }

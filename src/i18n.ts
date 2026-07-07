@@ -21,7 +21,13 @@
 // Translation Maps
 // ============================================================================
 
-type LocaleValue = string | LocaleDict | ((...args: any[]) => string);
+/** Supported argument types for parameterized translations. */
+type LocaleArg = string | number;
+
+/** Translation function signatures in locale data can take specific params. */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+type LocaleFn = (...args: any[]) => string;
+type LocaleValue = string | LocaleDict | LocaleFn;
 interface LocaleDict {
     [key: string]: LocaleValue;
 }
@@ -310,16 +316,20 @@ export const SUPPORTED_LANGUAGES: { code: string; name: string }[] = [
  * @param args - Optional arguments for parameterized translations.
  * @returns The translated string.
  */
-export function t(key: string, lang: string, ...args: any[]): string {
+export function t(key: string, lang: string, ...args: LocaleArg[]): string {
     const dict = locales[lang] || locales["en"];
     const fallback = locales["en"];
 
-    let value: any = getNested(dict, key);
+    const value = getNested(dict, key);
     if (value === undefined) {
-        value = getNested(fallback, key);
-    }
-    if (value === undefined) {
-        return key; // key not found anywhere — return the key itself as debug aid
+        const fallbackValue = getNested(fallback, key);
+        if (fallbackValue === undefined) {
+            return key; // key not found anywhere — return the key itself as debug aid
+        }
+        if (typeof fallbackValue === "function") {
+            return fallbackValue(...args);
+        }
+        return String(fallbackValue);
     }
     if (typeof value === "function") {
         return value(...args);
@@ -330,14 +340,14 @@ export function t(key: string, lang: string, ...args: any[]): string {
 /**
  * Walk a nested object by dot-separated path.
  */
-function getNested(obj: LocaleDict, path: string): any {
+function getNested(obj: LocaleDict, path: string): LocaleValue | undefined {
     const parts = path.split(".");
-    let current: any = obj;
+    let current: LocaleDict | LocaleValue = obj;
     for (const part of parts) {
         if (current == null || typeof current !== "object") return undefined;
-        current = current[part];
+        current = (current as LocaleDict)[part];
     }
-    return current;
+    return current as LocaleValue | undefined;
 }
 
 /**
@@ -348,5 +358,5 @@ function getNested(obj: LocaleDict, path: string): any {
  * @returns A function `(key, ...args) => string`.
  */
 export function createTranslator(lang: string) {
-    return (key: string, ...args: any[]): string => t(key, lang, ...args);
+    return (key: string, ...args: LocaleArg[]): string => t(key, lang, ...args);
 }

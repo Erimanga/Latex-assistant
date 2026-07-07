@@ -2,13 +2,14 @@
  * Editor Extensions.
  */
 import type { Plugin } from "obsidian";
+import type { Extension } from "@codemirror/state";
 import type { LatexAssistantSettings } from "../settings";
 import { snippetStateField } from "../snippets/tracker";
 import { createKeymapExtension } from "./keymap";
 import { createSnippetCompletionExtension } from "../completion/snippet_completion";
 
-export function buildAllExtensions(plugin: Plugin, settings: LatexAssistantSettings) {
-    const exts: any[] = [snippetStateField, createKeymapExtension(plugin, settings)];
+export function buildAllExtensions(plugin: Plugin, settings: LatexAssistantSettings): Extension[] {
+    const exts: Extension[] = [snippetStateField, createKeymapExtension(plugin, settings)];
     if (settings.enableSnippets) {
         exts.push(createSnippetCompletionExtension(settings));
     }

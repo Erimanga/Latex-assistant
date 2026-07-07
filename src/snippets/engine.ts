@@ -3,6 +3,7 @@
  */
 
 import type { EditorView } from "@codemirror/view";
+import type { EditorState } from "@codemirror/state";
 import type { Snippet, TabStop } from "../types/snippet";
 import { isCursorInMath } from "../features/math_context";
 import type { LatexAssistantSettings } from "../settings";
@@ -16,7 +17,7 @@ export interface SnippetContext {
 }
 
 export function getSnippetContext(
-    state: { selection: { main: { head: number } }; doc: { toString(): string } },
+    state: EditorState,
     settings: LatexAssistantSettings,
     triggerStart?: number
 ): SnippetContext {
@@ -25,7 +26,7 @@ export function getSnippetContext(
     // charBefore = char before the trigger word, NOT before cursor
     const boundary = triggerStart ?? cursor;
     return {
-        inMath: settings.mathContextAware ? isCursorInMath(state as any) : true,
+        inMath: settings.mathContextAware ? isCursorInMath(state) : true,
         charBefore: boundary > 0 ? doc[boundary - 1] : "",
     };
 }

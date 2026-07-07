@@ -16,6 +16,11 @@ import { SnippetPickerModal } from "./modals/snippet_picker";
 import type { Snippet } from "./types/snippet";
 import { t } from "./i18n";
 
+/** Obsidian's Editor internally exposes the CodeMirror EditorView as `.cm`. */
+interface EditorWithCM extends Editor {
+    cm?: EditorView;
+}
+
 export default class LatexAssistantPlugin extends Plugin {
     public settings!: LatexAssistantSettings;
 
@@ -27,11 +32,17 @@ export default class LatexAssistantPlugin extends Plugin {
     }
 
     async loadSettings(): Promise<void> {
-        this.settings = Object.assign({}, DEFAULT_SETTINGS, await this.loadData() ?? {});
+        const data = await this.loadData();
+        this.settings = Object.assign({}, DEFAULT_SETTINGS, data ?? {}) as LatexAssistantSettings;
     }
 
     onunload(): void {
         void this.saveData(this.settings);
+    }
+
+    /** Safely get the CodeMirror EditorView from an Obsidian Editor. */
+    private getCM(editor: Editor): EditorView | undefined {
+        return (editor as EditorWithCM).cm;
     }
 
     private registerCommands(): void {
@@ -50,7 +61,7 @@ export default class LatexAssistantPlugin extends Plugin {
                 id: `insert-${tr}`,
                 name: t(nameKeys[tr] || `LaTeX: ${sn.description}`, lang),
                 editorCallback: (editor: Editor, _ctx: MarkdownFileInfo) => {
-                    const cm = (editor as any).cm as EditorView | undefined;
+                    const cm = this.getCM(editor);
                     if (!cm) { new Notice(t("notices.noEditor", lang)); return; }
                     recordUsage(this.settings, sn.id);
                     expandSnippet(cm, sn, cm.state.selection.main.head);
@@ -61,7 +72,7 @@ export default class LatexAssistantPlugin extends Plugin {
             id: "open-picker",
             name: t("commands.openPicker", lang),
             editorCallback: (editor: Editor, _ctx: MarkdownFileInfo) => {
-                const cm = (editor as any).cm as EditorView | undefined;
+                const cm = this.getCM(editor);
                 if (!cm) return;
                 const ss = getAllSnippets(this.settings);
                 new SnippetPickerModal(this.app, ss, this.settings.language,

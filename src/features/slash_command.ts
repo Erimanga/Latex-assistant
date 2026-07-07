@@ -8,8 +8,7 @@ import { SnippetPickerModal } from "../modals/snippet_picker";
 import { getAllSnippets, expandSnippet, recordUsage } from "../snippets/engine";
 import type { LatexAssistantSettings } from "../settings";
 
-export function openSlashCommandModal(plugin: Plugin, view: EditorView): void {
-    const settings = (plugin as any).settings as LatexAssistantSettings;
+export function openSlashCommandModal(plugin: Plugin, view: EditorView, settings: LatexAssistantSettings): void {
     const snippets = getAllSnippets(settings);
 
     const modal = new SnippetPickerModal(
