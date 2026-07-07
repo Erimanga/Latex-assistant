@@ -24,10 +24,7 @@
 /** Supported argument types for parameterized translations. */
 type LocaleArg = string | number;
 
-/** Translation function signatures in locale data can take specific params. */
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-type LocaleFn = (...args: any[]) => string;
-type LocaleValue = string | LocaleDict | LocaleFn;
+type LocaleValue = string | LocaleDict | ((...args: any[]) => string);
 interface LocaleDict {
     [key: string]: LocaleValue;
 }
@@ -342,12 +339,12 @@ export function t(key: string, lang: string, ...args: LocaleArg[]): string {
  */
 function getNested(obj: LocaleDict, path: string): LocaleValue | undefined {
     const parts = path.split(".");
-    let current: LocaleDict | LocaleValue = obj;
+    let current: LocaleValue = obj;
     for (const part of parts) {
-        if (current == null || typeof current !== "object") return undefined;
-        current = (current as LocaleDict)[part];
+        if (current == null || typeof current !== "object" || typeof current === "function") return undefined;
+        current = current[part];
     }
-    return current as LocaleValue | undefined;
+    return current;
 }
 
 /**

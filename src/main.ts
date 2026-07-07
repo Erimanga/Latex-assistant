@@ -32,8 +32,8 @@ export default class LatexAssistantPlugin extends Plugin {
     }
 
     async loadSettings(): Promise<void> {
-        const data = await this.loadData();
-        this.settings = Object.assign({}, DEFAULT_SETTINGS, data ?? {}) as LatexAssistantSettings;
+        const data = await this.loadData() as Partial<LatexAssistantSettings> | null;
+        this.settings = Object.assign({}, DEFAULT_SETTINGS, data ?? {});
     }
 
     onunload(): void {
